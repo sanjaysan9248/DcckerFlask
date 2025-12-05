@@ -1,19 +1,14 @@
-# Flask App Docker Deployment on AWS EC2
+# Flask App Deployment using Docker and AWS EC2
 
-This is a small project where I created a simple Flask application, put it inside a Docker container, and deployed it on an AWS EC2 Ubuntu instance.  
-The main purpose of this project was to understand how Docker works, how to run containers on a cloud server, and how to expose the app publicly.
+This is a small learning project where I ran a simple Flask application inside a Docker container and deployed it on an AWS EC2 Ubuntu instance.  
+I did this to understand Docker basics and how deployment works on the cloud.
 
----
+## Files in this project
+- sanapp.py → Flask app  
+- requirements.txt → dependencies  
+- Dockerfile → used to build the Docker image  
 
-## What this project contains
-- A basic Flask app (`sanapp.py`)
-- A `requirements.txt` file for dependencies
-- A Dockerfile to build the Docker image
-- Instructions to run the project locally or on AWS EC2
-
----
-
-## Flask App (sanapp.py)
+## Flask App Code
 
 ```python
 from flask import Flask
@@ -24,21 +19,15 @@ app = Flask(__name__)
 def home():
     return "Hello from Sanjay's Flask App!"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
 ```
 
-This is just a simple route that prints a message so I can test the deployment.
-
----
-
-## Requirements
+## requirements.txt
 
 ```
 flask
 ```
-
----
 
 ## Dockerfile
 
@@ -57,9 +46,7 @@ EXPOSE 5000
 CMD ["python3", "sanapp.py"]
 ```
 
----
-
-## How to run this with Docker (locally or on EC2)
+## Running it with Docker
 
 ### Build the image:
 ```
@@ -71,47 +58,37 @@ docker build -t san-flask-app .
 docker run -d -p 5000:5000 san-flask-app
 ```
 
-### Check if container is running:
+### Check containers:
 ```
 docker ps
 ```
 
----
+## Steps I followed on AWS EC2
 
-## Deploying on AWS EC2
-
-### 1. Launch an Ubuntu EC2 instance
-- Instance type: t2.micro or t3.micro  
-- Open port **22** (SSH) and **5000** (for Flask)
-- Download your `.pem` key
-
-### 2. Connect to EC2
+1. Launched Ubuntu EC2 instance  
+2. Opened ports 22 (SSH) and 5000  
+3. Connected with SSH:
 ```
-chmod 400 yourkey.pem
-ssh -i yourkey.pem ubuntu@<EC2-IP>
+chmod 400 mykey.pem
+ssh -i mykey.pem ubuntu@<EC2-IP>
 ```
-
-### 3. Install Docker on EC2
+4. Installed Docker:
 ```
 sudo apt update
 sudo apt install docker.io -y
 ```
-
-### 4. Clone this repository
+5. Cloned the repo:
 ```
 git clone https://github.com/sanjaysan9248/DcckerFlask.git
 cd DcckerFlask
 ```
-
-### 5. Build and run the Docker container on EC2
+6. Built and ran the Docker container:
 ```
 docker build -t san-flask-app .
 docker run -d -p 5000:5000 san-flask-app
 ```
 
----
-
-## Accessing the app
+## How to view the app
 Open your browser and go to:
 
 ```
@@ -123,24 +100,19 @@ You should see:
 Hello from Sanjay's Flask App!
 ```
 
----
+## What I learned
+- basics of Flask  
+- how Docker works  
+- how to install Docker on EC2  
+- how to run a container on a cloud server  
+- port mapping (5000 to 5000)  
+- connecting to EC2 using SSH  
 
-## What I learned from this project
-- How to write a simple Flask application  
-- How Docker builds images and runs containers  
-- How to connect to AWS EC2 with SSH  
-- How port mapping works (5000 inside → 5000 outside)  
-- How to deploy a containerized app on a cloud server  
-
----
-
-## Future improvements
-- Add Nginx reverse proxy  
-- Use GitHub Actions (CI/CD)  
-- Deploy using ECS or Kubernetes  
-- Add logging and monitoring  
-
----
+## Things I want to try next
+- Nginx reverse proxy  
+- GitHub Actions (CI/CD)  
+- Deploying using ECS or Kubernetes  
+- Adding more features to the Flask app  
 
 ## Author
-Sanjay  
+Sanjay
